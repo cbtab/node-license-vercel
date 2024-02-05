@@ -1,7 +1,7 @@
 const express = require('express');
-
+const path = require('path');
 const cors = require('cors');
-
+const multer = require('multer');
 const { createWorker } = require('tesseract.js');
 
 
@@ -21,6 +21,21 @@ app.get('/', (req,res)=>{
 app.get('/test', (req,res)=>{
     res.send("this is api")
 })
+
+const storage = multer.memoryStorage();
+const fileFilter = (req, file, cb) => {
+  const allowedFileTypes = /jpeg|jpg|png/;
+  const extname = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = allowedFileTypes.test(file.mimetype);
+  
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb(new Error('Only JPEG, JPG, and PNG files are allowed!'));
+  }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 
 const performOCR = async (imageBuffer) => {
@@ -45,7 +60,7 @@ const performOCR = async (imageBuffer) => {
 };
 
 
-app.post('/licenseDetector', async (req, res) => {
+app.post('/licenseDetector', upload.single('image'), async (req, res) => {
   try {
     if (!req.file) {
       throw new Error('No file uploaded!');
