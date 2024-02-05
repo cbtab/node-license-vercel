@@ -85,26 +85,26 @@ app.post('/licenseDetector', upload.single('image'), async (req, res) => {
       }
     );
 
-    const prediction = response.data.predictions[0];
-    const imageWidth = response.data.image.width;
-    const imageHeight = response.data.image.height;
+    // const prediction = response.data.predictions[0];
+    // const imageWidth = response.data.image.width;
+    // const imageHeight = response.data.image.height;
 
-    console.log(response.data);
-    console.log("Image received from client");
+    // console.log(response.data);
+    // console.log("Image received from client");
 
-    const { x, y, width, height } = prediction;
+    // const { x, y, width, height } = prediction;
 
-    const left = Math.max(0, Math.floor(x - width * 0.5));
-    const top = Math.max(0, Math.floor(y - height * 0.5));
-    const cropWidth = Math.min(Math.floor(width), imageWidth - left);
-    const cropHeight = Math.min(Math.floor(height), imageHeight - top);
+    // const left = Math.max(0, Math.floor(x - width * 0.5));
+    // const top = Math.max(0, Math.floor(y - height * 0.5));
+    // const cropWidth = Math.min(Math.floor(width), imageWidth - left);
+    // const cropHeight = Math.min(Math.floor(height), imageHeight - top);
 
-    const croppedImageBuffer = await sharp(fileBuffer)
-      .extract({ left, top, width: cropWidth, height: cropHeight })
-      .toBuffer();
-    const ocrResult = await performOCR(croppedImageBuffer);
+    // const croppedImageBuffer = await sharp(fileBuffer)
+    //   .extract({ left, top, width: cropWidth, height: cropHeight })
+    //   .toBuffer();
+    // const ocrResult = await performOCR(croppedImageBuffer);
 
-    res.json({ license_plate_text: ocrResult});
+    res.json({ license_plate_text: ocrResult, result: response});
     return;
   } catch (error) {
     console.error("Error processing image:", error);
