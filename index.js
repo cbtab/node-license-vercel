@@ -1,7 +1,7 @@
 const express = require('express');
-const multer = require('multer');
+
 const cors = require('cors');
-const path = require('path');
+
 const { createWorker } = require('tesseract.js');
 
 
@@ -22,20 +22,6 @@ app.get('/test', (req,res)=>{
     res.send("this is api")
 })
 
-const storage = multer.memoryStorage();
-const fileFilter = (req, file, cb) => {
-  const allowedFileTypes = /jpeg|jpg|png/;
-  const extname = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedFileTypes.test(file.mimetype);
-  
-  if (mimetype && extname) {
-    return cb(null, true);
-  } else {
-    cb(new Error('Only JPEG, JPG, and PNG files are allowed!'));
-  }
-};
-
-const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 const performOCR = async (imageBuffer) => {
   const worker = await createWorker('tha');
