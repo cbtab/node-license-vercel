@@ -1,10 +1,8 @@
 const express = require('express');
-const sharp = require('sharp');
-const multer = require('multer');
-const axios = require('axios');
+
 const { createWorker } = require('tesseract.js');
 const cors = require('cors');
-const path = require('path')
+
 
 
 const app = express()
@@ -91,7 +89,7 @@ app.post('/licenseDetector', upload.single('image'), async (req, res) => {
     //   .toBuffer();
     // const ocrResult = await performOCR(croppedImageBuffer);
 
-    res.json({ license_plate_text: ocrResult, result: response});
+    res.json({ license_plate_text: "hello", result: "hello"});
     return;
   } catch (error) {
     console.error("Error processing image:", error);
