@@ -59,16 +59,16 @@ app.get('/test', (req,res)=>{
 // };
 
 
-app.post('/licenseDetector', upload.single('image'), async (req, res) => {
+app.post('/licenseDetector', async (req, res) => {
   try {
     if (!req.file) {
       throw new Error('No file uploaded!');
     }
 
-    const fileBuffer = req.file.buffer;
-    const base64String = fileBuffer.toString('base64');
 
-    const dataUrl = `data:image/jpeg;base64,${base64String}`;
+
+
+
 
     // const prediction = response.data.predictions[0];
     // const imageWidth = response.data.image.width;
